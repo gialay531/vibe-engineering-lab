@@ -106,6 +106,7 @@ The prototype does not connect to enterprise systems, transmit data, or perform 
 - Require explicit authorization before sending messages or modifying external systems.
 - Record enough audit information to explain what sources informed a brief.
 - Fail safely when authorization, provenance, or data quality cannot be verified.
+
 ## Foundational Architecture Decisions
 
 ### Use a Common Internal Schema
