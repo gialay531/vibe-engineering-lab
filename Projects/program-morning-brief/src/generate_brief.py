@@ -47,6 +47,8 @@ def classify_item(item: dict) -> str:
         return "before_next_brief"
 
     return "unclassified"
+
+
 def group_items(items: list[dict]) -> dict[str, list[dict]]:
     """Group source items by their morning-brief classification."""
     groups = {
@@ -61,6 +63,8 @@ def group_items(items: list[dict]) -> dict[str, list[dict]]:
         groups[classification].append(item)
 
     return groups
+
+
 def format_item(item: dict) -> str:
     """Format one source item as a cited Markdown bullet."""
     return (
@@ -81,6 +85,8 @@ def format_section(
         bullets.append(f"- {empty_message}")
 
     return "\n".join([f"## {title}", "", *bullets])
+
+
 def generate_bluf(groups: dict[str, list[dict]]) -> str:
     """Generate a concise BLUF from the highest-priority grouped items."""
     sentences = []
@@ -103,6 +109,8 @@ def generate_bluf(groups: dict[str, list[dict]]) -> str:
         return "No supported items were identified in the available source data."
 
     return " ".join(sentences)
+
+
 def generate_brief(data: dict) -> str:
     """Generate a complete BLUF 3x3 morning brief as Markdown."""
     groups = group_items(data["items"])
@@ -133,6 +141,7 @@ def main() -> None:
     data = load_program_data(DATA_FILE)
     brief = generate_brief(data)
     print(brief, end="")
+
 
 if __name__ == "__main__":
     main()
