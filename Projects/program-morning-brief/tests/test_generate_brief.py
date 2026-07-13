@@ -105,6 +105,17 @@ class TestGenerateBrief(unittest.TestCase):
         self.assertEqual(len(groups["roadblock_risk_or_bottleneck"]), 3)
         self.assertEqual(len(groups["unclassified"]), 0)
 
+    def test_unsupported_schema_version_is_rejected(self) -> None:
+        """An unknown schema version should produce a clear error."""
+        invalid_data = deepcopy(self.data)
+        invalid_data["schema_version"] = "99.0"
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "Unsupported schema version: 99.0",
+        ):
+            validate_program_data(invalid_data)
+
 
 if __name__ == "__main__":
     unittest.main()
