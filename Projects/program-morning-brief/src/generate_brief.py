@@ -81,6 +81,28 @@ def format_section(
         bullets.append(f"- {empty_message}")
 
     return "\n".join([f"## {title}", "", *bullets])
+def generate_bluf(groups: dict[str, list[dict]]) -> str:
+    """Generate a concise BLUF from the highest-priority grouped items."""
+    sentences = []
+
+    if groups["accomplished"]:
+        title = groups["accomplished"][0]["title"].lower()
+        sentences.append(f"Progress is confirmed on {title}.")
+
+    if groups["before_next_brief"]:
+        title = groups["before_next_brief"][0]["title"].lower()
+        sentences.append(
+            f"Before the next brief, attention should focus on {title}."
+        )
+
+    if groups["roadblock_risk_or_bottleneck"]:
+        title = groups["roadblock_risk_or_bottleneck"][0]["title"].lower()
+        sentences.append(f"The primary risk is {title}.")
+
+    if not sentences:
+        return "No supported items were identified in the available source data."
+
+    return " ".join(sentences)
 
 def main() -> None:
     """Load the source data and print the three brief sections."""
@@ -89,7 +111,10 @@ def main() -> None:
 
     print(f"# Morning Brief — {data['brief_date']}")
     print()
-
+    print("## BLUF")
+    print()
+    print(generate_bluf(groups))
+    print()
     for title, group_name, empty_message in SECTION_CONFIG:
         section = format_section(
             title,
