@@ -1,0 +1,40 @@
+{
+  "brief_date": "2026-07-13",
+  "lookback_start": "2026-07-10",
+  "program": {
+    "name": "Atlas Customer Portal Modernization",
+    "description": "A fictional program used to develop and test TPM Copilot."
+  },
+  "items": [
+    {
+      "id": "TEAMS-001",
+      "source_system": "Microsoft Teams",
+      "source_type": "channel_message",
+      "timestamp": "2026-07-12T15:30:00-06:00",
+      "author": "Maya Chen",
+      "title": "API contract approved",
+      "content": "The architecture group approved version 2 of the customer-profile API contract. The application and integration teams can begin implementation.",
+      "source_reference": "Synthetic Teams message TEAMS-001"
+    },
+    {
+      "id": "JIRA-001",
+      "source_system": "Jira",
+      "source_type": "ticket",
+      "timestamp": "2026-07-13T09:00:00-06:00",
+      "author": "Daniel Ortiz",
+      "title": "Security design review",
+      "content": "The security design review is scheduled for July 14. Priya owns the presentation and expects a decision on the authentication approach during the review.",
+      "source_reference": "Synthetic Jira ticket JIRA-001"
+    },
+    {
+      "id": "EMAIL-001",
+      "source_system": "Outlook",
+      "source_type": "email",
+      "timestamp": "2026-07-13T10:15:00-06:00",
+      "author": "Jordan Lee",
+      "title": "Test environment delivery delay",
+      "content": "The infrastructure team expects the integration test environment to be delivered three business days late. This may delay end-to-end testing unless the team can use the shared development environment temporarily.",
+      "source_reference": "Synthetic Outlook email EMAIL-001"
+    }
+  ]
+}
