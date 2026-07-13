@@ -103,27 +103,36 @@ def generate_bluf(groups: dict[str, list[dict]]) -> str:
         return "No supported items were identified in the available source data."
 
     return " ".join(sentences)
-
-def main() -> None:
-    """Load the source data and print the three brief sections."""
-    data = load_program_data(DATA_FILE)
+def generate_brief(data: dict) -> str:
+    """Generate a complete BLUF 3x3 morning brief as Markdown."""
     groups = group_items(data["items"])
 
-    print(f"# Morning Brief — {data['brief_date']}")
-    print()
-    print("## BLUF")
-    print()
-    print(generate_bluf(groups))
-    print()
+    lines = [
+        f"# Morning Brief — {data['brief_date']}",
+        "",
+        "## BLUF",
+        "",
+        generate_bluf(groups),
+        "",
+    ]
+
     for title, group_name, empty_message in SECTION_CONFIG:
         section = format_section(
             title,
             groups[group_name],
             empty_message,
         )
-        print(section)
-        print()
+        lines.append(section)
+        lines.append("")
 
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def main() -> None:
+    """Load the source data and print the generated morning brief."""
+    data = load_program_data(DATA_FILE)
+    brief = generate_brief(data)
+    print(brief, end="")
 
 if __name__ == "__main__":
     main()
