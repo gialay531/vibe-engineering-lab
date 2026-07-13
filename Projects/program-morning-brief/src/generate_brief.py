@@ -4,6 +4,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = PROJECT_ROOT / "sample-data" / "program-items.json"
+OUTPUT_DIR = PROJECT_ROOT / "generated-output"
 
 ACCOMPLISHMENT_KEYWORDS = ("approved", "completed", "resolved")
 NEXT_PERIOD_KEYWORDS = ("scheduled", "will", "expects", "due")
@@ -136,11 +137,24 @@ def generate_brief(data: dict) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def save_brief(
+    brief: str,
+    brief_date: str,
+    output_dir: Path = OUTPUT_DIR,
+) -> Path:
+    """Save a generated brief and return the output file path."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_file = output_dir / f"morning-brief-{brief_date}.md"
+    output_file.write_text(brief, encoding="utf-8")
+    return output_file
+
+
 def main() -> None:
-    """Load the source data and print the generated morning brief."""
+    """Load the source data, generate the brief, and save it."""
     data = load_program_data(DATA_FILE)
     brief = generate_brief(data)
-    print(brief, end="")
+    output_file = save_brief(brief, data["brief_date"])
+    print(f"Morning brief saved to: {output_file}")
 
 
 if __name__ == "__main__":

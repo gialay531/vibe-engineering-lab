@@ -7,3 +7,7 @@ __pycache__/
 
 # macOS metadata
 .DS_Store
+
+
+# Generated morning briefs
+Projects/program-morning-brief/generated-output/
