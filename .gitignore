@@ -1,0 +1,9 @@
+# Python-generated cache files
+__pycache__/
+*.py[cod]
+
+# Local Python environments
+.venv/
+
+# macOS metadata
+.DS_Store
