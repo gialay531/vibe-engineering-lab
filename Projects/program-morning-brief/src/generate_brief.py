@@ -8,6 +8,23 @@ DATA_FILE = PROJECT_ROOT / "sample-data" / "program-items.json"
 ACCOMPLISHMENT_KEYWORDS = ("approved", "completed", "resolved")
 NEXT_PERIOD_KEYWORDS = ("scheduled", "will", "expects", "due")
 RISK_KEYWORDS = ("delay", "late", "blocked", "risk")
+SECTION_CONFIG = (
+    (
+        "1. Accomplished Since the Previous Brief",
+        "accomplished",
+        "No additional supported accomplishment was identified.",
+    ),
+    (
+        "2. Before the Next Brief",
+        "before_next_brief",
+        "No additional supported planned outcome was identified.",
+    ),
+    (
+        "3. Roadblocks, Risks, and Bottlenecks",
+        "roadblock_risk_or_bottleneck",
+        "No additional supported roadblock, risk, or bottleneck was identified.",
+    ),
+)
 
 
 def load_program_data(file_path: Path) -> dict:
@@ -44,22 +61,43 @@ def group_items(items: list[dict]) -> dict[str, list[dict]]:
         groups[classification].append(item)
 
     return groups
+def format_item(item: dict) -> str:
+    """Format one source item as a cited Markdown bullet."""
+    return (
+        f"- {item['title']}: {item['content']} "
+        f"**[{item['id']}]**"
+    )
 
+
+def format_section(
+    title: str,
+    items: list[dict],
+    empty_message: str,
+) -> str:
+    """Format one BLUF 3x3 section with exactly three bullets."""
+    bullets = [format_item(item) for item in items[:3]]
+
+    while len(bullets) < 3:
+        bullets.append(f"- {empty_message}")
+
+    return "\n".join([f"## {title}", "", *bullets])
 
 def main() -> None:
-    """Load, classify, and group the sample source items."""
+    """Load the source data and print the three brief sections."""
     data = load_program_data(DATA_FILE)
     groups = group_items(data["items"])
 
-    print(f"Program: {data['program']['name']}")
-    print(f"Brief date: {data['brief_date']}")
+    print(f"# Morning Brief — {data['brief_date']}")
     print()
 
-    for section, items in groups.items():
-        print(f"{section}: {len(items)} item(s)")
-
-        for item in items:
-            print(f"  - {item['id']}: {item['title']}")
+    for title, group_name, empty_message in SECTION_CONFIG:
+        section = format_section(
+            title,
+            groups[group_name],
+            empty_message,
+        )
+        print(section)
+        print()
 
 
 if __name__ == "__main__":
