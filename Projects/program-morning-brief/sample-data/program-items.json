@@ -36,5 +36,66 @@
       "content": "The infrastructure team expects the integration test environment to be delivered three business days late. This may delay end-to-end testing unless the team can use the shared development environment temporarily.",
       "source_reference": "Synthetic Outlook email EMAIL-001"
     }
+    ,
+    {
+      "id": "CONFLUENCE-001",
+      "source_system": "Confluence",
+      "source_type": "documentation",
+      "timestamp": "2026-07-12T11:00:00-06:00",
+      "author": "Elena Rossi",
+      "title": "Migration runbook completed",
+      "content": "The data team completed the customer migration runbook, including rollback procedures and validation checkpoints.",
+      "source_reference": "Synthetic Confluence page CONFLUENCE-001"
+    },
+    {
+      "id": "JIRA-002",
+      "source_system": "Jira",
+      "source_type": "ticket",
+      "timestamp": "2026-07-12T14:20:00-06:00",
+      "author": "Avery Brooks",
+      "title": "Accessibility defects resolved",
+      "content": "The user-interface team resolved the three high-priority accessibility defects found during the latest review.",
+      "source_reference": "Synthetic Jira ticket JIRA-002"
+    },
+    {
+      "id": "EMAIL-002",
+      "source_system": "Outlook",
+      "source_type": "email",
+      "timestamp": "2026-07-13T08:10:00-06:00",
+      "author": "Samira Patel",
+      "title": "Data migration rehearsal scheduled",
+      "content": "The first data migration rehearsal is scheduled for July 15. Marcus will coordinate the rehearsal and publish the results afterward.",
+      "source_reference": "Synthetic Outlook email EMAIL-002"
+    },
+    {
+      "id": "TEAMS-002",
+      "source_system": "Microsoft Teams",
+      "source_type": "direct_message",
+      "timestamp": "2026-07-13T09:40:00-06:00",
+      "author": "Noah Williams",
+      "title": "Executive demo due Friday",
+      "content": "The executive demo is due Friday. Noah will finalize the scenario, and Lena will validate the customer-profile workflow before the demo.",
+      "source_reference": "Synthetic Teams message TEAMS-002"
+    },
+    {
+      "id": "JIRA-003",
+      "source_system": "Jira",
+      "source_type": "ticket",
+      "timestamp": "2026-07-13T10:30:00-06:00",
+      "author": "Priya Shah",
+      "title": "Vendor SSO dependency blocked",
+      "content": "Authentication testing is blocked because the identity vendor has not supplied the required sandbox configuration. Escalation to the vendor account lead is needed today.",
+      "source_reference": "Synthetic Jira ticket JIRA-003"
+    },
+    {
+      "id": "CONFLUENCE-002",
+      "source_system": "Confluence",
+      "source_type": "documentation",
+      "timestamp": "2026-07-13T11:05:00-06:00",
+      "author": "Taylor Morgan",
+      "title": "Capacity risk for launch support",
+      "content": "The current launch-support plan has a capacity risk because weekend coverage remains unassigned for two critical services.",
+      "source_reference": "Synthetic Confluence page CONFLUENCE-002"
+    }
   ]
 }

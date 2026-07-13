@@ -1,8 +1,22 @@
 import sys
 import unittest
+from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from copy import deepcopy
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+SRC_DIR = PROJECT_ROOT / "src"
+DATA_FILE = PROJECT_ROOT / "sample-data" / "program-items.json"
+
+sys.path.insert(0, str(SRC_DIR))
+
+from generate_brief import (
+    generate_brief,
+    group_items,
+    load_program_data,
+    save_brief,
+    validate_program_data,
+)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SRC_DIR = PROJECT_ROOT / "src"
@@ -81,6 +95,15 @@ class TestGenerateBrief(unittest.TestCase):
             "Item at position 0.*title",
         ):
             validate_program_data(invalid_data)
+
+    def test_sample_data_fills_all_three_sections(self) -> None:
+        """The expanded dataset should supply three items per brief section."""
+        groups = group_items(self.data["items"])
+
+        self.assertEqual(len(groups["accomplished"]), 3)
+        self.assertEqual(len(groups["before_next_brief"]), 3)
+        self.assertEqual(len(groups["roadblock_risk_or_bottleneck"]), 3)
+        self.assertEqual(len(groups["unclassified"]), 0)
 
 
 if __name__ == "__main__":
