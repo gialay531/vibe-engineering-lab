@@ -2,6 +2,7 @@ import sys
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from copy import deepcopy
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -14,6 +15,7 @@ from generate_brief import (
     generate_brief,
     load_program_data,
     save_brief,
+    validate_program_data,
 )
 
 
@@ -47,7 +49,6 @@ class TestGenerateBrief(unittest.TestCase):
             citation = f"**[{item['id']}]**"
             self.assertIn(citation, self.brief)
 
-
     def test_brief_can_be_saved(self) -> None:
         """The saved file should contain the complete generated brief."""
         with TemporaryDirectory() as temporary_directory:
@@ -62,6 +63,24 @@ class TestGenerateBrief(unittest.TestCase):
                 output_file.read_text(encoding="utf-8"),
                 self.brief,
             )
+    def test_missing_top_level_field_is_rejected(self) -> None:
+        """Missing briefing metadata should produce a clear error."""
+        invalid_data = deepcopy(self.data)
+        del invalid_data["brief_date"]
+
+        with self.assertRaisesRegex(ValueError, "brief_date"):
+            validate_program_data(invalid_data)
+
+    def test_missing_item_field_is_rejected(self) -> None:
+        """An incomplete source item should identify its position and field."""
+        invalid_data = deepcopy(self.data)
+        del invalid_data["items"][0]["title"]
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "Item at position 0.*title",
+        ):
+            validate_program_data(invalid_data)
 
 
 if __name__ == "__main__":
