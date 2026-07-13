@@ -30,20 +30,36 @@ def classify_item(item: dict) -> str:
         return "before_next_brief"
 
     return "unclassified"
+def group_items(items: list[dict]) -> dict[str, list[dict]]:
+    """Group source items by their morning-brief classification."""
+    groups = {
+        "accomplished": [],
+        "before_next_brief": [],
+        "roadblock_risk_or_bottleneck": [],
+        "unclassified": [],
+    }
+
+    for item in items:
+        classification = classify_item(item)
+        groups[classification].append(item)
+
+    return groups
 
 
 def main() -> None:
-    """Load, classify, and display the sample source items."""
+    """Load, classify, and group the sample source items."""
     data = load_program_data(DATA_FILE)
+    groups = group_items(data["items"])
 
     print(f"Program: {data['program']['name']}")
     print(f"Brief date: {data['brief_date']}")
-    print(f"Source items: {len(data['items'])}")
     print()
 
-    for item in data["items"]:
-        classification = classify_item(item)
-        print(f"- {item['id']}: {classification}")
+    for section, items in groups.items():
+        print(f"{section}: {len(items)} item(s)")
+
+        for item in items:
+            print(f"  - {item['id']}: {item['title']}")
 
 
 if __name__ == "__main__":
