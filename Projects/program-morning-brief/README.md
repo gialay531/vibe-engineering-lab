@@ -27,7 +27,7 @@ The first version will:
 - Identify high-priority items.
 - Produce a concise morning brief.
 - Include citations to the supplied source material.
-- clearly communicate uncertainty and missing information.
+- Clearly communicate uncertainty and missing information.
 
 The first version will not:
 
