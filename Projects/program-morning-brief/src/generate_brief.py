@@ -4,11 +4,13 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = PROJECT_ROOT / "sample-data" / "program-items.json"
 OUTPUT_DIR = PROJECT_ROOT / "generated-output"
+SUPPORTED_SCHEMA_VERSIONS = ("1.0",)
 
 ACCOMPLISHMENT_KEYWORDS = ("approved", "completed", "resolved")
 NEXT_PERIOD_KEYWORDS = ("scheduled", "will", "expects", "due")
 RISK_KEYWORDS = ("delay", "late", "blocked", "risk")
 REQUIRED_TOP_LEVEL_FIELDS = (
+    "schema_version",
     "brief_date",
     "program",
     "items",
@@ -68,6 +70,9 @@ def validate_program_data(data: dict) -> None:
     if missing_top_level:
         missing = ", ".join(missing_top_level)
         raise ValueError(f"Program data is missing required field(s): {missing}")
+
+    if data["schema_version"] not in SUPPORTED_SCHEMA_VERSIONS:
+        raise ValueError(f"Unsupported schema version: {data['schema_version']}")
 
     if not isinstance(data["program"], dict):
         raise ValueError("The program field must be a JSON object.")
