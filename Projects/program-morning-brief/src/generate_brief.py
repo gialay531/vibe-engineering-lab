@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = PROJECT_ROOT / "sample-data" / "program-items.json"
 OUTPUT_DIR = PROJECT_ROOT / "generated-output"
@@ -131,10 +130,7 @@ def group_items(items: list[dict]) -> dict[str, list[dict]]:
 
 def format_item(item: dict) -> str:
     """Format one source item as a cited Markdown bullet."""
-    return (
-        f"- {item['title']}: {item['content']} "
-        f"**[{item['id']}]**"
-    )
+    return f"- {item['title']}: {item['content']} " f"**[{item['id']}]**"
 
 
 def format_section(
@@ -161,9 +157,7 @@ def generate_bluf(groups: dict[str, list[dict]]) -> str:
 
     if groups["before_next_brief"]:
         title = groups["before_next_brief"][0]["title"].lower()
-        sentences.append(
-            f"Before the next brief, attention should focus on {title}."
-        )
+        sentences.append(f"Before the next brief, attention should focus on {title}.")
 
     if groups["roadblock_risk_or_bottleneck"]:
         title = groups["roadblock_risk_or_bottleneck"][0]["title"].lower()

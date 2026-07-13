@@ -1,0 +1,13 @@
+{
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false
+  },
+  "editor.guides.indentation": true,
+  "editor.renderWhitespace": "boundary",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true
+}
