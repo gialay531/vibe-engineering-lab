@@ -4,7 +4,6 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from copy import deepcopy
 
-
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SRC_DIR = PROJECT_ROOT / "src"
 DATA_FILE = PROJECT_ROOT / "sample-data" / "program-items.json"
@@ -63,6 +62,7 @@ class TestGenerateBrief(unittest.TestCase):
                 output_file.read_text(encoding="utf-8"),
                 self.brief,
             )
+
     def test_missing_top_level_field_is_rejected(self) -> None:
         """Missing briefing metadata should produce a clear error."""
         invalid_data = deepcopy(self.data)
