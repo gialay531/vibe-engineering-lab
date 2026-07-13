@@ -1,6 +1,7 @@
 import sys
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -9,7 +10,11 @@ DATA_FILE = PROJECT_ROOT / "sample-data" / "program-items.json"
 
 sys.path.insert(0, str(SRC_DIR))
 
-from generate_brief import generate_brief, load_program_data
+from generate_brief import (
+    generate_brief,
+    load_program_data,
+    save_brief,
+)
 
 
 class TestGenerateBrief(unittest.TestCase):
@@ -41,6 +46,22 @@ class TestGenerateBrief(unittest.TestCase):
         for item in self.data["items"]:
             citation = f"**[{item['id']}]**"
             self.assertIn(citation, self.brief)
+
+
+    def test_brief_can_be_saved(self) -> None:
+        """The saved file should contain the complete generated brief."""
+        with TemporaryDirectory() as temporary_directory:
+            output_file = save_brief(
+                self.brief,
+                self.data["brief_date"],
+                Path(temporary_directory),
+            )
+
+            self.assertTrue(output_file.exists())
+            self.assertEqual(
+                output_file.read_text(encoding="utf-8"),
+                self.brief,
+            )
 
 
 if __name__ == "__main__":
