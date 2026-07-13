@@ -9,6 +9,27 @@ OUTPUT_DIR = PROJECT_ROOT / "generated-output"
 ACCOMPLISHMENT_KEYWORDS = ("approved", "completed", "resolved")
 NEXT_PERIOD_KEYWORDS = ("scheduled", "will", "expects", "due")
 RISK_KEYWORDS = ("delay", "late", "blocked", "risk")
+REQUIRED_TOP_LEVEL_FIELDS = (
+    "brief_date",
+    "program",
+    "items",
+)
+
+REQUIRED_PROGRAM_FIELDS = (
+    "name",
+    "description",
+)
+
+REQUIRED_ITEM_FIELDS = (
+    "id",
+    "source_system",
+    "source_type",
+    "timestamp",
+    "author",
+    "title",
+    "content",
+    "source_reference",
+)
 SECTION_CONFIG = (
     (
         "1. Accomplished Since the Previous Brief",
@@ -29,9 +50,51 @@ SECTION_CONFIG = (
 
 
 def load_program_data(file_path: Path) -> dict:
-    """Load and return program data from a JSON file."""
+    """Load, validate, and return program data from a JSON file."""
     with file_path.open("r", encoding="utf-8") as file:
-        return json.load(file)
+        data = json.load(file)
+
+    validate_program_data(data)
+    return data
+
+
+def validate_program_data(data: dict) -> None:
+    """Raise a clear error when required program data is missing or invalid."""
+    if not isinstance(data, dict):
+        raise ValueError("Program data must be a JSON object.")
+
+    missing_top_level = [
+        field for field in REQUIRED_TOP_LEVEL_FIELDS if field not in data
+    ]
+    if missing_top_level:
+        missing = ", ".join(missing_top_level)
+        raise ValueError(f"Program data is missing required field(s): {missing}")
+
+    if not isinstance(data["program"], dict):
+        raise ValueError("The program field must be a JSON object.")
+
+    missing_program_fields = [
+        field for field in REQUIRED_PROGRAM_FIELDS if field not in data["program"]
+    ]
+    if missing_program_fields:
+        missing = ", ".join(missing_program_fields)
+        raise ValueError(f"Program is missing required field(s): {missing}")
+
+    if not isinstance(data["items"], list):
+        raise ValueError("The items field must be a JSON array.")
+
+    for index, item in enumerate(data["items"]):
+        if not isinstance(item, dict):
+            raise ValueError(f"Item at position {index} must be a JSON object.")
+
+        missing_item_fields = [
+            field for field in REQUIRED_ITEM_FIELDS if field not in item
+        ]
+        if missing_item_fields:
+            missing = ", ".join(missing_item_fields)
+            raise ValueError(
+                f"Item at position {index} is missing required field(s): {missing}"
+            )
 
 
 def classify_item(item: dict) -> str:
