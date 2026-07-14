@@ -1,3 +1,4 @@
+import re
 import json
 from pathlib import Path
 from copy import deepcopy
@@ -230,17 +231,23 @@ def validate_program_data(data: dict) -> None:
             )
 
 
+def contains_signal(text: str, signal: str) -> bool:
+    """Return whether text contains a complete signal word or phrase."""
+    pattern = rf"(?<!\w){re.escape(signal)}(?!\w)"
+    return re.search(pattern, text, flags=re.IGNORECASE) is not None
+
+
 def classify_item(item: dict) -> str:
     """Classify one source item using simple keyword rules."""
     text = f"{item['title']} {item['content']}".lower()
 
-    if any(keyword in text for keyword in ACCOMPLISHMENT_KEYWORDS):
+    if any(contains_signal(text, keyword) for keyword in ACCOMPLISHMENT_KEYWORDS):
         return "accomplished"
 
-    if any(keyword in text for keyword in RISK_KEYWORDS):
+    if any(contains_signal(text, keyword) for keyword in RISK_KEYWORDS):
         return "roadblock_risk_or_bottleneck"
 
-    if any(keyword in text for keyword in NEXT_PERIOD_KEYWORDS):
+    if any(contains_signal(text, keyword) for keyword in NEXT_PERIOD_KEYWORDS):
         return "before_next_brief"
 
     return "unclassified"
@@ -259,11 +266,11 @@ def calculate_priority_attributes(
     text = f"{item['title']} {item['content']}".lower()
 
     for score, keywords in URGENCY_SIGNALS:
-        if any(keyword in text for keyword in keywords):
+        if any(contains_signal(text, keyword) for keyword in keywords):
             urgency = max(urgency, score)
 
     for score, keywords in IMPACT_SIGNALS:
-        if any(keyword in text for keyword in keywords):
+        if any(contains_signal(text, keyword) for keyword in keywords):
             impact = max(impact, score)
 
     return urgency, impact
