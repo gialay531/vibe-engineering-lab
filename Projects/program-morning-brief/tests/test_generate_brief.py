@@ -212,6 +212,16 @@ class TestGenerateBrief(unittest.TestCase):
         self.assertEqual(scores, sorted(scores, reverse=True))
         self.assertEqual(scores[0], 15.0)
 
+    def test_late_signal_does_not_match_latest(self) -> None:
+        """The word latest should not be interpreted as a late signal."""
+        accessibility_source = next(
+            item for item in self.data["items"] if item["id"] == "JIRA-002"
+        )
+
+        analyzed_item = analyze_item(accessibility_source)
+
+        self.assertEqual(analyzed_item["analysis"]["urgency"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()
