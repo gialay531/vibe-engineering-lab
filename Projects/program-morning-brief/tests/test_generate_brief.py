@@ -12,6 +12,7 @@ sys.path.insert(0, str(SRC_DIR))
 
 from generate_brief import (
     NORMALIZED_ITEM_DEFAULTS,
+    GOVERNANCE_DEFAULTS,
     generate_brief,
     group_items,
     load_program_data,
@@ -130,6 +131,41 @@ class TestGenerateBrief(unittest.TestCase):
         for field in NORMALIZED_ITEM_DEFAULTS:
             self.assertNotIn(field, raw_data["items"][0])
             self.assertIsNone(normalized_data["items"][0][field])
+
+    def test_missing_governance_uses_fail_safe_defaults(self) -> None:
+        """Missing governance should default to restricted and unauthorized."""
+        raw_data = deepcopy(self.data)
+        raw_data["items"][0].pop("governance", None)
+
+        normalized_data = normalize_program_data(raw_data)
+        governance = normalized_data["items"][0]["governance"]
+
+        self.assertNotIn("governance", raw_data["items"][0])
+        self.assertEqual(governance, GOVERNANCE_DEFAULTS)
+        self.assertEqual(governance["sensitivity"], "restricted")
+        self.assertFalse(governance["authorized_for_ai"])
+
+    def test_governance_must_be_an_object(self) -> None:
+        """Malformed governance data should be rejected."""
+        invalid_data = deepcopy(self.data)
+        invalid_data["items"][0]["governance"] = "restricted"
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "Governance for item at position 0 must be a JSON object",
+        ):
+            validate_program_data(invalid_data)
+
+    def test_unsupported_sensitivity_is_rejected(self) -> None:
+        """Sensitivity must use an allowed governance classification."""
+        invalid_data = deepcopy(self.data)
+        invalid_data["items"][0]["governance"]["sensitivity"] = "secret"
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "unsupported sensitivity: secret",
+        ):
+            validate_program_data(invalid_data)
 
 
 if __name__ == "__main__":
