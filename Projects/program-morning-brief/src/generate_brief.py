@@ -38,6 +38,7 @@ REQUIRED_ITEM_FIELDS = (
     "source_priority",
     "thread_id",
     "retrieved_at",
+    "governance",
 )
 SECTION_CONFIG = (
     (
@@ -66,6 +67,27 @@ NORMALIZED_ITEM_DEFAULTS = {
     "retrieved_at": None,
 }
 
+GOVERNANCE_DEFAULTS = {
+    "sensitivity": "restricted",
+    "authorized_for_ai": False,
+    "retention_policy": None,
+    "contains_personal_data": None,
+}
+
+REQUIRED_GOVERNANCE_FIELDS = (
+    "sensitivity",
+    "authorized_for_ai",
+    "retention_policy",
+    "contains_personal_data",
+)
+
+ALLOWED_SENSITIVITY_VALUES = (
+    "public",
+    "internal",
+    "confidential",
+    "restricted",
+)
+
 
 def normalize_program_data(data: dict) -> dict:
     """Return a normalized copy with explicit defaults for optional metadata."""
@@ -84,6 +106,12 @@ def normalize_program_data(data: dict) -> dict:
 
         for field, default_value in NORMALIZED_ITEM_DEFAULTS.items():
             item.setdefault(field, default_value)
+
+        if "governance" not in item:
+            item["governance"] = deepcopy(GOVERNANCE_DEFAULTS)
+        elif isinstance(item["governance"], dict):
+            for field, default_value in GOVERNANCE_DEFAULTS.items():
+                item["governance"].setdefault(field, default_value)
 
     return normalized_data
 
@@ -137,6 +165,50 @@ def validate_program_data(data: dict) -> None:
             missing = ", ".join(missing_item_fields)
             raise ValueError(
                 f"Item at position {index} is missing required field(s): {missing}"
+            )
+        governance = item["governance"]
+
+        if not isinstance(governance, dict):
+            raise ValueError(
+                f"Governance for item at position {index} must be a JSON object."
+            )
+
+        missing_governance_fields = [
+            field for field in REQUIRED_GOVERNANCE_FIELDS if field not in governance
+        ]
+        if missing_governance_fields:
+            missing = ", ".join(missing_governance_fields)
+            raise ValueError(
+                f"Governance for item at position {index} "
+                f"is missing required field(s): {missing}"
+            )
+
+        if governance["sensitivity"] not in ALLOWED_SENSITIVITY_VALUES:
+            raise ValueError(
+                f"Item at position {index} has unsupported sensitivity: "
+                f"{governance['sensitivity']}"
+            )
+
+        if not isinstance(governance["authorized_for_ai"], bool):
+            raise ValueError(
+                f"authorized_for_ai for item at position {index} " "must be a boolean."
+            )
+
+        retention_policy = governance["retention_policy"]
+        if retention_policy is not None and not isinstance(retention_policy, str):
+            raise ValueError(
+                f"retention_policy for item at position {index} "
+                "must be a string or null."
+            )
+
+        contains_personal_data = governance["contains_personal_data"]
+        if contains_personal_data is not None and not isinstance(
+            contains_personal_data,
+            bool,
+        ):
+            raise ValueError(
+                f"contains_personal_data for item at position {index} "
+                "must be a boolean or null."
             )
 
 
