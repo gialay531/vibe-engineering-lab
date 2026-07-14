@@ -89,6 +89,18 @@ python3 -m unittest discover -s Projects/program-morning-brief/tests -v
 
 Objective checks do not replace human judgment. Apply the [Morning Brief Evaluation Rubric](../../Documentation/Morning-Brief-Evaluation-Rubric.md) to assess faithfulness, prioritization, actionability, clarity, uncertainty, and overall usefulness.
 
+## AI-Assisted Analysis Status
+
+The provider-neutral [Program Item Analysis Prompt](prompts/analyze-program-items.md) defines the planned AI-analysis behavior, governance gate, classification rules, scoring requirements, and structured JSON output.
+
+The prompt is not yet connected to a model. Before execution, the project must add:
+
+- Explicit AI authorization for synthetic test items.
+- A validator for the structured analysis response.
+- Tests for exclusions, invalid scores, missing identifiers, and unsupported claims.
+- A configurable analysis interface that can switch between deterministic and AI-assisted methods.
+- Evaluation against the human-approved golden brief.
+
 ## Learning Goals
 
 This project will introduce:
