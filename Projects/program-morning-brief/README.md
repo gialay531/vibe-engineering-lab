@@ -101,11 +101,11 @@ The project now includes:
 - Safe application of validated analysis to a separate copy of source data.
 - Trusted system timestamps for applied analysis.
 - Automated tests for valid, invalid, excluded, and unauthorized responses.
+- A configurable interface for deterministic and AI-assisted analysis methods.
 
 The prompt is not yet connected to a model. Before live execution, the project must still add:
 
 - Explicit AI authorization for approved synthetic test items.
-- A configurable analysis interface that can switch between deterministic and AI-assisted methods.
 - Evaluation against the human-approved golden brief.
 - A model adapter that preserves the provider-neutral contract.
 
