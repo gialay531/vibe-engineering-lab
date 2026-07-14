@@ -93,13 +93,21 @@ Objective checks do not replace human judgment. Apply the [Morning Brief Evaluat
 
 The provider-neutral [Program Item Analysis Prompt](prompts/analyze-program-items.md) defines the planned AI-analysis behavior, governance gate, classification rules, scoring requirements, and structured JSON output.
 
-The prompt is not yet connected to a model. Before execution, the project must add:
+The project now includes:
 
-- Explicit AI authorization for synthetic test items.
-- A validator for the structured analysis response.
-- Tests for exclusions, invalid scores, missing identifiers, and unsupported claims.
+- A validator for structured AI-analysis responses.
+- Complete identifier and source-item coverage checks.
+- Classification, scoring, provenance, and governance validation.
+- Safe application of validated analysis to a separate copy of source data.
+- Trusted system timestamps for applied analysis.
+- Automated tests for valid, invalid, excluded, and unauthorized responses.
+
+The prompt is not yet connected to a model. Before live execution, the project must still add:
+
+- Explicit AI authorization for approved synthetic test items.
 - A configurable analysis interface that can switch between deterministic and AI-assisted methods.
 - Evaluation against the human-approved golden brief.
+- A model adapter that preserves the provider-neutral contract.
 
 ## Learning Goals
 
