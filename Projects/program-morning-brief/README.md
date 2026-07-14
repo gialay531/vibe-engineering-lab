@@ -65,6 +65,30 @@ Three concise bullets describing the most important obstacles, emerging risks, u
 - Do not invent information to fill the format.
 - If fewer than three supported items exist in a section, state that no additional supported item was identified.
 
+## Run and Evaluate the Prototype
+
+Run these commands from the repository root.
+
+Generate a dated local Markdown brief:
+
+```bash
+python3 Projects/program-morning-brief/src/generate_brief.py
+```
+
+Run objective quality checks:
+
+```bash
+python3 Projects/program-morning-brief/src/evaluate_brief.py
+```
+
+Run the complete automated test suite:
+
+```bash
+python3 -m unittest discover -s Projects/program-morning-brief/tests -v
+```
+
+Objective checks do not replace human judgment. Apply the [Morning Brief Evaluation Rubric](../../Documentation/Morning-Brief-Evaluation-Rubric.md) to assess faithfulness, prioritization, actionability, clarity, uncertainty, and overall usefulness.
+
 ## Learning Goals
 
 This project will introduce:
