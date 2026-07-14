@@ -88,6 +88,24 @@ ALLOWED_SENSITIVITY_VALUES = (
     "restricted",
 )
 
+SECTION_DEFAULT_SCORES = {
+    "accomplished": (1, 3),
+    "before_next_brief": (3, 3),
+    "roadblock_risk_or_bottleneck": (4, 4),
+    "unclassified": (None, None),
+}
+
+URGENCY_SIGNALS = (
+    (5, ("today", "blocked", "critical")),
+    (4, ("late", "delay", "risk")),
+    (3, ("scheduled", "due", "will")),
+)
+
+IMPACT_SIGNALS = (
+    (5, ("critical", "authentication", "end-to-end")),
+    (4, ("executive", "api", "migration")),
+)
+
 
 def normalize_program_data(data: dict) -> dict:
     """Return a normalized copy with explicit defaults for optional metadata."""
@@ -228,18 +246,66 @@ def classify_item(item: dict) -> str:
     return "unclassified"
 
 
+def calculate_priority_attributes(
+    item: dict,
+    brief_section: str,
+) -> tuple[int | None, int | None]:
+    """Calculate transparent urgency and impact scores."""
+    urgency, impact = SECTION_DEFAULT_SCORES[brief_section]
+
+    if urgency is None or impact is None:
+        return None, None
+
+    text = f"{item['title']} {item['content']}".lower()
+
+    for score, keywords in URGENCY_SIGNALS:
+        if any(keyword in text for keyword in keywords):
+            urgency = max(urgency, score)
+
+    for score, keywords in IMPACT_SIGNALS:
+        if any(keyword in text for keyword in keywords):
+            impact = max(impact, score)
+
+    return urgency, impact
+
+
+def calculate_priority_score(
+    urgency: int | None,
+    impact: int | None,
+    confidence: float,
+) -> float:
+    """Calculate a deterministic priority score."""
+    if urgency is None or impact is None:
+        return 0.0
+
+    return round(urgency * impact * confidence, 2)
+
+
 def analyze_item(item: dict) -> dict:
     """Return an analyzed copy without modifying source facts."""
     analyzed_item = deepcopy(item)
     brief_section = classify_item(item)
 
+    urgency, impact = calculate_priority_attributes(
+        item,
+        brief_section,
+    )
+    confidence = 0.6 if brief_section != "unclassified" else 0.0
+    priority_score = calculate_priority_score(
+        urgency,
+        impact,
+        confidence,
+    )
+
     analyzed_item["analysis"] = {
         "brief_section": brief_section,
-        "urgency": None,
-        "impact": None,
-        "confidence": 0.6 if brief_section != "unclassified" else 0.0,
+        "urgency": urgency,
+        "impact": impact,
+        "confidence": confidence,
+        "priority_score": priority_score,
         "rationale": (
-            f"Classified as {brief_section} using transparent keyword rules."
+            f"Classified as {brief_section} with urgency {urgency} "
+            f"and impact {impact} using transparent keyword rules."
         ),
         "analysis_method": "keyword_rules_v1",
         "analyzed_at": None,
@@ -261,6 +327,12 @@ def group_items(items: list[dict]) -> dict[str, list[dict]]:
         analyzed_item = analyze_item(item)
         brief_section = analyzed_item["analysis"]["brief_section"]
         groups[brief_section].append(analyzed_item)
+
+    for grouped_items in groups.values():
+        grouped_items.sort(
+            key=lambda item: item["analysis"]["priority_score"],
+            reverse=True,
+        )
 
     return groups
 

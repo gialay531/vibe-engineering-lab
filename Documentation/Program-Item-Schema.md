@@ -64,8 +64,21 @@ Derived fields are produced by an analysis method and must remain distinguishabl
 | `rationale` | string or null | Concise explanation supporting the classification and scores |
 | `analysis_method` | string or null | Rule set, model, or human process that produced the analysis |
 | `analyzed_at` | ISO 8601 string or null | Time the analysis was produced |
+| `priority_score` | number | Deterministic ordering score calculated from urgency, impact, and confidence |
 
 Derived values must include enough provenance to explain how they were produced. Low-confidence conclusions should be marked clearly or withheld from the final brief.
+
+### Baseline Priority Formula
+
+The deterministic baseline calculates:
+
+`priority score = urgency × impact × confidence`
+
+Items are ordered from highest to lowest score within their assigned BLUF 3×3 section.
+
+The baseline uses transparent keyword signals so its behavior can be inspected and tested. It is not equivalent to contextual judgment. For example, a keyword may appear in a negated statement or in a different context than the rule expects.
+
+Future analysis methods may improve the component scores, but they must preserve an explainable rationale and a reproducible final ordering.
 
 ## Governance Fields
 

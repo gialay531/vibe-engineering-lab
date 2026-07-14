@@ -187,6 +187,31 @@ class TestGenerateBrief(unittest.TestCase):
             "keyword_rules_v1",
         )
 
+    def test_priority_attributes_follow_transparent_rules(self) -> None:
+        """Urgency and impact should reflect documented keyword signals."""
+        accomplishment = analyze_item(self.data["items"][0])
+
+        blocked_risk_source = next(
+            item for item in self.data["items"] if item["id"] == "JIRA-003"
+        )
+        blocked_risk = analyze_item(blocked_risk_source)
+
+        self.assertEqual(accomplishment["analysis"]["urgency"], 1)
+        self.assertEqual(accomplishment["analysis"]["impact"], 4)
+
+        self.assertEqual(blocked_risk["analysis"]["urgency"], 5)
+        self.assertEqual(blocked_risk["analysis"]["impact"], 5)
+
+    def test_items_are_sorted_by_descending_priority_score(self) -> None:
+        """Each brief section should place higher-priority items first."""
+        groups = group_items(self.data["items"])
+        risk_items = groups["roadblock_risk_or_bottleneck"]
+
+        scores = [item["analysis"]["priority_score"] for item in risk_items]
+
+        self.assertEqual(scores, sorted(scores, reverse=True))
+        self.assertEqual(scores[0], 15.0)
+
 
 if __name__ == "__main__":
     unittest.main()
