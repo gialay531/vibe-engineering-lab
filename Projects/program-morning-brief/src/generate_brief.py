@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from copy import deepcopy
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = PROJECT_ROOT / "sample-data" / "program-items.json"
@@ -30,6 +31,13 @@ REQUIRED_ITEM_FIELDS = (
     "title",
     "content",
     "source_reference",
+    "source_url",
+    "owner",
+    "due_date",
+    "status",
+    "source_priority",
+    "thread_id",
+    "retrieved_at",
 )
 SECTION_CONFIG = (
     (
@@ -48,13 +56,44 @@ SECTION_CONFIG = (
         "No additional supported roadblock, risk, or bottleneck was identified.",
     ),
 )
+NORMALIZED_ITEM_DEFAULTS = {
+    "source_url": None,
+    "owner": None,
+    "due_date": None,
+    "status": None,
+    "source_priority": None,
+    "thread_id": None,
+    "retrieved_at": None,
+}
+
+
+def normalize_program_data(data: dict) -> dict:
+    """Return a normalized copy with explicit defaults for optional metadata."""
+    normalized_data = deepcopy(data)
+
+    if not isinstance(normalized_data, dict):
+        return normalized_data
+
+    items = normalized_data.get("items")
+    if not isinstance(items, list):
+        return normalized_data
+
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+
+        for field, default_value in NORMALIZED_ITEM_DEFAULTS.items():
+            item.setdefault(field, default_value)
+
+    return normalized_data
 
 
 def load_program_data(file_path: Path) -> dict:
-    """Load, validate, and return program data from a JSON file."""
+    """Load, normalize, validate, and return program data from a JSON file."""
     with file_path.open("r", encoding="utf-8") as file:
-        data = json.load(file)
+        raw_data = json.load(file)
 
+    data = normalize_program_data(raw_data)
     validate_program_data(data)
     return data
 

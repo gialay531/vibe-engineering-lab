@@ -11,9 +11,11 @@ DATA_FILE = PROJECT_ROOT / "sample-data" / "program-items.json"
 sys.path.insert(0, str(SRC_DIR))
 
 from generate_brief import (
+    NORMALIZED_ITEM_DEFAULTS,
     generate_brief,
     group_items,
     load_program_data,
+    normalize_program_data,
     save_brief,
     validate_program_data,
 )
@@ -115,6 +117,19 @@ class TestGenerateBrief(unittest.TestCase):
             "Unsupported schema version: 99.0",
         ):
             validate_program_data(invalid_data)
+
+    def test_optional_metadata_is_normalized_without_mutating_input(self) -> None:
+        """Missing metadata should become null in a separate normalized copy."""
+        raw_data = deepcopy(self.data)
+
+        for field in NORMALIZED_ITEM_DEFAULTS:
+            raw_data["items"][0].pop(field, None)
+
+        normalized_data = normalize_program_data(raw_data)
+
+        for field in NORMALIZED_ITEM_DEFAULTS:
+            self.assertNotIn(field, raw_data["items"][0])
+            self.assertIsNone(normalized_data["items"][0][field])
 
 
 if __name__ == "__main__":
