@@ -32,6 +32,7 @@ from generate_brief import (
     load_program_data,
     save_brief,
     validate_program_data,
+    analyze_item,
 )
 
 
@@ -166,6 +167,25 @@ class TestGenerateBrief(unittest.TestCase):
             "unsupported sensitivity: secret",
         ):
             validate_program_data(invalid_data)
+
+    def test_analysis_is_separate_from_source_facts(self) -> None:
+        """Derived analysis should be added only to an independent copy."""
+        source_item = deepcopy(self.data["items"][0])
+        analyzed_item = analyze_item(source_item)
+
+        self.assertNotIn("analysis", source_item)
+        self.assertIn("analysis", analyzed_item)
+
+        self.assertEqual(analyzed_item["id"], source_item["id"])
+        self.assertEqual(analyzed_item["content"], source_item["content"])
+        self.assertEqual(
+            analyzed_item["analysis"]["brief_section"],
+            "accomplished",
+        )
+        self.assertEqual(
+            analyzed_item["analysis"]["analysis_method"],
+            "keyword_rules_v1",
+        )
 
 
 if __name__ == "__main__":

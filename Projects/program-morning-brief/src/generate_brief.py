@@ -228,6 +228,26 @@ def classify_item(item: dict) -> str:
     return "unclassified"
 
 
+def analyze_item(item: dict) -> dict:
+    """Return an analyzed copy without modifying source facts."""
+    analyzed_item = deepcopy(item)
+    brief_section = classify_item(item)
+
+    analyzed_item["analysis"] = {
+        "brief_section": brief_section,
+        "urgency": None,
+        "impact": None,
+        "confidence": 0.6 if brief_section != "unclassified" else 0.0,
+        "rationale": (
+            f"Classified as {brief_section} using transparent keyword rules."
+        ),
+        "analysis_method": "keyword_rules_v1",
+        "analyzed_at": None,
+    }
+
+    return analyzed_item
+
+
 def group_items(items: list[dict]) -> dict[str, list[dict]]:
     """Group source items by their morning-brief classification."""
     groups = {
@@ -238,8 +258,9 @@ def group_items(items: list[dict]) -> dict[str, list[dict]]:
     }
 
     for item in items:
-        classification = classify_item(item)
-        groups[classification].append(item)
+        analyzed_item = analyze_item(item)
+        brief_section = analyzed_item["analysis"]["brief_section"]
+        groups[brief_section].append(analyzed_item)
 
     return groups
 
