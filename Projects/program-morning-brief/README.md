@@ -105,10 +105,9 @@ The project now includes:
 - Explicit AI authorization metadata for approved synthetic items.
 - Brief generation that preserves validated precomputed analysis.
 - Golden-brief evaluation of AI-assisted classifications and priority order.
+- A provider-neutral model adapter contract with pre-provider governance filtering.
 
-The prompt is not yet connected to a model. Before live execution, the project must still add:
-
-- A model adapter that preserves the provider-neutral contract.
+The project does not yet call a live model. A future provider implementation must conform to the adapter contract and pass through the same governance, validation, application, and evaluation controls.
 
 ## Learning Goals
 
