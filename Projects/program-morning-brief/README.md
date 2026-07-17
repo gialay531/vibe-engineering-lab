@@ -102,10 +102,10 @@ The project now includes:
 - Trusted system timestamps for applied analysis.
 - Automated tests for valid, invalid, excluded, and unauthorized responses.
 - A configurable interface for deterministic and AI-assisted analysis methods.
+- Explicit AI authorization metadata for approved synthetic items.
 
 The prompt is not yet connected to a model. Before live execution, the project must still add:
 
-- Explicit AI authorization for approved synthetic test items.
 - Evaluation against the human-approved golden brief.
 - A model adapter that preserves the provider-neutral contract.
 
