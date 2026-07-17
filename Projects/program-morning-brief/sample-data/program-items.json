@@ -15,7 +15,13 @@
       "author": "Maya Chen",
       "title": "API contract approved",
       "content": "The architecture group approved version 2 of the customer-profile API contract. The application and integration teams can begin implementation.",
-      "source_reference": "Synthetic Teams message TEAMS-001"
+      "source_reference": "Synthetic Teams message TEAMS-001",
+      "governance": {
+        "sensitivity": "public",
+        "authorized_for_ai": true,
+        "retention_policy": null,
+               "contains_personal_data": false
+      }
     },
     {
       "id": "JIRA-001",
@@ -25,7 +31,13 @@
       "author": "Daniel Ortiz",
       "title": "Security design review",
       "content": "The security design review is scheduled for July 14. Priya owns the presentation and expects a decision on the authentication approach during the review.",
-      "source_reference": "Synthetic Jira ticket JIRA-001"
+      "source_reference": "Synthetic Jira ticket JIRA-001",
+      "governance": {
+        "sensitivity": "public",
+        "authorized_for_ai": true,
+        "retention_policy": null,
+        "contains_personal_data": false
+      }
     },
     {
       "id": "EMAIL-001",
@@ -35,7 +47,13 @@
       "author": "Jordan Lee",
       "title": "Test environment delivery delay",
       "content": "The infrastructure team expects the integration test environment to be delivered three business days late. This may delay end-to-end testing unless the team can use the shared development environment temporarily.",
-      "source_reference": "Synthetic Outlook email EMAIL-001"
+      "source_reference": "Synthetic Outlook email EMAIL-001",
+      "governance": {
+        "sensitivity": "public",
+        "authorized_for_ai": true,
+        "retention_policy": null,
+        "contains_personal_data": false
+      }
     }
     ,
     {
@@ -46,7 +64,13 @@
       "author": "Elena Rossi",
       "title": "Migration runbook completed",
       "content": "The data team completed the customer migration runbook, including rollback procedures and validation checkpoints.",
-      "source_reference": "Synthetic Confluence page CONFLUENCE-001"
+      "source_reference": "Synthetic Confluence page CONFLUENCE-001",
+      "governance": {
+        "sensitivity": "public",
+        "authorized_for_ai": true,
+        "retention_policy": null,
+        "contains_personal_data": false
+      }
     },
     {
       "id": "JIRA-002",
@@ -56,7 +80,13 @@
       "author": "Avery Brooks",
       "title": "Accessibility defects resolved",
       "content": "The user-interface team resolved the three high-priority accessibility defects found during the latest review.",
-      "source_reference": "Synthetic Jira ticket JIRA-002"
+      "source_reference": "Synthetic Jira ticket JIRA-002",
+      "governance": {
+        "sensitivity": "public",
+        "authorized_for_ai": true,
+        "retention_policy": null,
+        "contains_personal_data": false
+      }
     },
     {
       "id": "EMAIL-002",
@@ -66,7 +96,13 @@
       "author": "Samira Patel",
       "title": "Data migration rehearsal scheduled",
       "content": "The first data migration rehearsal is scheduled for July 15. Marcus will coordinate the rehearsal and publish the results afterward.",
-      "source_reference": "Synthetic Outlook email EMAIL-002"
+      "source_reference": "Synthetic Outlook email EMAIL-002",
+      "governance": {
+        "sensitivity": "public",
+        "authorized_for_ai": true,
+        "retention_policy": null,
+        "contains_personal_data": false
+      }
     },
     {
       "id": "TEAMS-002",
@@ -76,7 +112,13 @@
       "author": "Noah Williams",
       "title": "Executive demo due Friday",
       "content": "The executive demo is due Friday. Noah will finalize the scenario, and Lena will validate the customer-profile workflow before the demo.",
-      "source_reference": "Synthetic Teams message TEAMS-002"
+      "source_reference": "Synthetic Teams message TEAMS-002",
+      "governance": {
+        "sensitivity": "public",
+        "authorized_for_ai": true,
+        "retention_policy": null,
+        "contains_personal_data": false
+      }
     },
     {
       "id": "JIRA-003",
@@ -86,7 +128,13 @@
       "author": "Priya Shah",
       "title": "Vendor SSO dependency blocked",
       "content": "Authentication testing is blocked because the identity vendor has not supplied the required sandbox configuration. Escalation to the vendor account lead is needed today.",
-      "source_reference": "Synthetic Jira ticket JIRA-003"
+      "source_reference": "Synthetic Jira ticket JIRA-003",
+      "governance": {
+        "sensitivity": "public",
+        "authorized_for_ai": true,
+        "retention_policy": null,
+        "contains_personal_data": false
+      }
     },
     {
       "id": "CONFLUENCE-002",
@@ -96,7 +144,13 @@
       "author": "Taylor Morgan",
       "title": "Capacity risk for launch support",
       "content": "The current launch-support plan has a capacity risk because weekend coverage remains unassigned for two critical services.",
-      "source_reference": "Synthetic Confluence page CONFLUENCE-002"
+      "source_reference": "Synthetic Confluence page CONFLUENCE-002",
+      "governance": {
+        "sensitivity": "public",
+        "authorized_for_ai": true,
+        "retention_policy": null,
+        "contains_personal_data": false
+      }
     }
   ]
 }

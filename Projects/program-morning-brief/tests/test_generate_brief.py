@@ -1,3 +1,4 @@
+import json
 import sys
 import unittest
 from copy import deepcopy
@@ -43,6 +44,33 @@ class TestGenerateBrief(unittest.TestCase):
         """Load the sample data and generate a fresh brief before each test."""
         self.data = load_program_data(DATA_FILE)
         self.brief = generate_brief(self.data)
+
+    def test_sample_items_are_explicitly_authorized_for_ai(self) -> None:
+        """Approved synthetic items must declare their governance explicitly."""
+        with DATA_FILE.open("r", encoding="utf-8") as file:
+            raw_data = json.load(file)
+
+        expected_governance = {
+            "sensitivity": "public",
+            "authorized_for_ai": True,
+            "retention_policy": None,
+            "contains_personal_data": False,
+        }
+
+        noncompliant_ids = [
+            item["id"]
+            for item in raw_data["items"]
+            if item.get("governance") != expected_governance
+        ]
+
+        self.assertEqual(
+            noncompliant_ids,
+            [],
+            (
+                "Synthetic items without explicit approved governance: "
+                f"{noncompliant_ids}"
+            ),
+        )
 
     def test_required_sections_are_present(self) -> None:
         """The brief should contain the BLUF and all three required sections."""
