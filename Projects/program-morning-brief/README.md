@@ -109,6 +109,19 @@ The project now includes:
 
 The project does not yet call a live model. A future provider implementation must conform to the adapter contract and pass through the same governance, validation, application, and evaluation controls.
 
+## Source Integration Status
+
+The project now includes a provider-neutral source adapter contract for retrieving canonical program items from multiple systems through one coordinator.
+
+The source boundary:
+
+- Applies one explicit, timezone-aware lookback window to every adapter.
+- Combines results from multiple source systems.
+- Rejects invalid time windows before contacting adapters.
+- Rejects malformed adapter responses before they enter the pipeline.
+
+No live enterprise source is connected yet. Future read-only Outlook, Microsoft Teams, Jira, and Confluence adapters must conform to this contract and the project’s validation and governance controls.
+
 ## Learning Goals
 
 This project will introduce:
