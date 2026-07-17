@@ -89,6 +89,12 @@ python3 -m unittest discover -s Projects/program-morning-brief/tests -v
 
 Objective checks do not replace human judgment. Apply the [Morning Brief Evaluation Rubric](../../Documentation/Morning-Brief-Evaluation-Rubric.md) to assess faithfulness, prioritization, actionability, clarity, uncertainty, and overall usefulness.
 
+## Continuous Integration
+
+The [Python tests workflow](../../.github/workflows/python-tests.yml) automatically runs the complete unit-test suite for pull requests targeting `main` and for pushes to `main`.
+
+This provides an independent GitHub-hosted verification in addition to local testing.
+
 ## AI-Assisted Analysis Status
 
 The provider-neutral [Program Item Analysis Prompt](prompts/analyze-program-items.md) defines the planned AI-analysis behavior, governance gate, classification rules, scoring requirements, and structured JSON output.
