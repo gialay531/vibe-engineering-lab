@@ -103,6 +103,7 @@ The project now includes:
 - Automated tests for valid, invalid, excluded, and unauthorized responses.
 - A configurable interface for deterministic and AI-assisted analysis methods.
 - Explicit AI authorization metadata for approved synthetic items.
+- Brief generation that preserves validated precomputed analysis.
 
 The prompt is not yet connected to a model. Before live execution, the project must still add:
 
