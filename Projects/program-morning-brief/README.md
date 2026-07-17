@@ -104,10 +104,10 @@ The project now includes:
 - A configurable interface for deterministic and AI-assisted analysis methods.
 - Explicit AI authorization metadata for approved synthetic items.
 - Brief generation that preserves validated precomputed analysis.
+- Golden-brief evaluation of AI-assisted classifications and priority order.
 
 The prompt is not yet connected to a model. Before live execution, the project must still add:
 
-- Evaluation against the human-approved golden brief.
 - A model adapter that preserves the provider-neutral contract.
 
 ## Learning Goals
