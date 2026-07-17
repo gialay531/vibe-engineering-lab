@@ -250,6 +250,36 @@ class TestGenerateBrief(unittest.TestCase):
 
         self.assertEqual(analyzed_item["analysis"]["urgency"], 1)
 
+    def test_grouping_preserves_precomputed_analysis(self) -> None:
+        """Validated analysis must not be replaced by keyword rules."""
+        source_item = deepcopy(self.data["items"][0])
+        source_item["analysis"] = {
+            "brief_section": "roadblock_risk_or_bottleneck",
+            "urgency": 5,
+            "impact": 5,
+            "confidence": 1.0,
+            "priority_score": 25.0,
+            "rationale": (
+                "A validated AI response classified this item "
+                "as a critical program risk."
+            ),
+            "analysis_method": "ai_assisted_v1",
+            "analyzed_at": "2026-07-17T09:00:00-06:00",
+        }
+
+        groups = group_items([source_item])
+        grouped_item = groups["roadblock_risk_or_bottleneck"][0]
+
+        self.assertIsNot(grouped_item, source_item)
+        self.assertEqual(
+            grouped_item["analysis"],
+            source_item["analysis"],
+        )
+        self.assertEqual(
+            grouped_item["analysis"]["analysis_method"],
+            "ai_assisted_v1",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

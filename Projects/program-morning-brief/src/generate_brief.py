@@ -331,7 +331,11 @@ def group_items(items: list[dict]) -> dict[str, list[dict]]:
     }
 
     for item in items:
-        analyzed_item = analyze_item(item)
+        if "analysis" in item:
+            analyzed_item = deepcopy(item)
+        else:
+            analyzed_item = analyze_item(item)
+
         brief_section = analyzed_item["analysis"]["brief_section"]
         groups[brief_section].append(analyzed_item)
 
