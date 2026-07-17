@@ -1,0 +1,126 @@
+{
+  "prompt_version": "1.0",
+  "schema_version": "1.0",
+  "analysis_method": "ai_assisted_v1",
+  "analyzed_items": [
+    {
+      "id": "TEAMS-001",
+      "analysis": {
+        "brief_section": "accomplished",
+        "urgency": 2,
+        "impact": 4,
+        "confidence": 0.9,
+        "priority_score": 7.2,
+        "rationale": "The source explicitly confirms approval of the API contract and readiness to begin implementation.",
+        "analysis_method": "ai_assisted_v1",
+        "analyzed_at": null
+      }
+    },
+    {
+      "id": "JIRA-001",
+      "analysis": {
+        "brief_section": "before_next_brief",
+        "urgency": 4,
+        "impact": 5,
+        "confidence": 0.9,
+        "priority_score": 18.0,
+        "rationale": "The security review is scheduled for July 14 and is expected to produce an authentication decision.",
+        "analysis_method": "ai_assisted_v1",
+        "analyzed_at": null
+      }
+    },
+    {
+      "id": "EMAIL-001",
+      "analysis": {
+        "brief_section": "roadblock_risk_or_bottleneck",
+        "urgency": 5,
+        "impact": 5,
+        "confidence": 0.95,
+        "priority_score": 23.75,
+        "rationale": "The test environment is expected three business days late and may delay end-to-end testing.",
+        "analysis_method": "ai_assisted_v1",
+        "analyzed_at": null
+      }
+    },
+    {
+      "id": "CONFLUENCE-001",
+      "analysis": {
+        "brief_section": "accomplished",
+        "urgency": 2,
+        "impact": 4,
+        "confidence": 0.9,
+        "priority_score": 7.2,
+        "rationale": "The source confirms completion of the migration runbook, including rollback and validation procedures.",
+        "analysis_method": "ai_assisted_v1",
+        "analyzed_at": null
+      }
+    },
+    {
+      "id": "JIRA-002",
+      "analysis": {
+        "brief_section": "accomplished",
+        "urgency": 2,
+        "impact": 3,
+        "confidence": 0.9,
+        "priority_score": 5.4,
+        "rationale": "The source confirms that all three high-priority accessibility defects were resolved.",
+        "analysis_method": "ai_assisted_v1",
+        "analyzed_at": null
+      }
+    },
+    {
+      "id": "EMAIL-002",
+      "analysis": {
+        "brief_section": "before_next_brief",
+        "urgency": 4,
+        "impact": 4,
+        "confidence": 0.9,
+        "priority_score": 14.4,
+        "rationale": "The first migration rehearsal is scheduled for July 15, with results expected afterward.",
+        "analysis_method": "ai_assisted_v1",
+        "analyzed_at": null
+      }
+    },
+    {
+      "id": "TEAMS-002",
+      "analysis": {
+        "brief_section": "before_next_brief",
+        "urgency": 4,
+        "impact": 4,
+        "confidence": 0.85,
+        "priority_score": 13.6,
+        "rationale": "The executive demo is due Friday and requires scenario completion and workflow validation.",
+        "analysis_method": "ai_assisted_v1",
+        "analyzed_at": null
+      }
+    },
+    {
+      "id": "JIRA-003",
+      "analysis": {
+        "brief_section": "roadblock_risk_or_bottleneck",
+        "urgency": 5,
+        "impact": 5,
+        "confidence": 0.9,
+        "priority_score": 22.5,
+        "rationale": "Authentication testing is blocked by missing vendor configuration and requires escalation today.",
+        "analysis_method": "ai_assisted_v1",
+        "analyzed_at": null
+      }
+    },
+    {
+      "id": "CONFLUENCE-002",
+      "analysis": {
+        "brief_section": "roadblock_risk_or_bottleneck",
+        "urgency": 4,
+        "impact": 5,
+        "confidence": 0.9,
+        "priority_score": 18.0,
+        "rationale": "Weekend coverage remains unassigned for two critical services, creating a launch-support capacity risk.",
+        "analysis_method": "ai_assisted_v1",
+        "analyzed_at": null
+      }
+    }
+  ],
+  "excluded_items": [],
+  "warnings": []
+}
